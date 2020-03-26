@@ -1,0 +1,31 @@
+.sharedTasks {
+  width: 95%;
+  max-width: 900px;
+  min-height: 120px;
+  border: 2px solid black;
+  margin: 0 auto 30px;
+  padding: 15px;
+  border-radius: 5px;
+  word-wrap: break-word;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardHeader h6 {
+  font-family: "Poppins-Bold", sans-serif;
+}
+
+.sharedTasks span {
+  font-family: "Poppins-Bold", sans-serif;
+}
+
+.tasks {
+  padding-top: 10px;
+}
+
+.done {
+  background: cadetblue;
+}

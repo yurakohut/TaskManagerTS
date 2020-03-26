@@ -1,0 +1,70 @@
+<header class="header">
+  <div class="container header-container">
+    <div *ngIf="userInSystem" class="header-user"><span>{{ userInSystem.username }}</span></div>
+    <div></div>
+    <div class="header-nav">
+      <nav>
+        <fa-icon [icon]="faPlus" class="fa-2x" matTooltip="Add new task" (click)="openModal(postModal)" matRipple>
+        </fa-icon>
+        <fa-icon [icon]="faTasks" [ngClass]="{'active': tabIndex === 1}" (click)="activeLink(1)" matTooltip="My tasks"
+          routerLink="my-tasks" matRipple class="ml-3 fa-2x"></fa-icon>
+        <mat-icon [matBadge]="tasksCount" matBadgeColor="warn">
+          <fa-icon [icon]="faUserFriends" [ngClass]="{'active': tabIndex === 2}" (click)="activeLink(2)"
+            matTooltip="Shared tasks" routerLink="shared-tasks" matRipple class="ml-3">
+          </fa-icon>
+        </mat-icon>
+        <fa-icon [icon]="faSignOutAlt" matTooltip="Log out" (click)="logOut()" matRipple class="ml-5 fa-2x"></fa-icon>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="tab-content" id="v-pills-tabContent">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+<ng-template #postModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Task modal</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="taskTitle">Task title</label>
+        <input type="text" [(ngModel)]="taskTitle" maxlength="30" name="taskTitle" id="taskTitle" class="form-control"
+          placeholder="Type here..">
+      </div>
+      <div class="form-group">
+        <label for="taskDescription">Task description</label>
+        <textarea rows="5" [(ngModel)]="taskDescription" name="taskDescription" id="taskDescription"
+          class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="taskSharedTo">Shared To</label>
+        <mat-form-field class="email-chip-list">
+          <mat-chip-list #chipList aria-label="Email selection">
+            <mat-chip *ngFor="let email of emails" [selectable]="selectable" [removable]="removable"
+              (removed)="removeEmail(email)">
+              {{email.name}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New email...(not necessarily)" [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addNewEmail($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label for="taskDeadline">Task deadline</label>
+        <input class="form-control" placeholder="Datepicker" [(ngModel)]='taskDeadline' id="taskDeadline"
+          name="taskDeadline" bsDatepicker [minDate]="minDate" placement="top">
+      </div>
+    </form>
+    <div class="buttons">
+      <button mat-raised-button color="primary" class="mr-2" (click)="addTask()">Add</button>
+      <button mat-raised-button color="warn" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

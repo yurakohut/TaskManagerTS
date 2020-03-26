@@ -1,0 +1,83 @@
+<div class="tasks">
+  <div class="container">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let task of filterTasks; trackBy: trackByPackId;" [ngClass]="{'done': task.isDone}"
+        class="mb-2">
+        <mat-expansion-panel-header [ngClass]="{'shared': task.sharedTo.length}" class="expansion-panel">
+          <mat-panel-title class="panelTitle">
+            <div class="cardHeader">
+              <h6 *ngIf="task.title">{{task.title}}</h6>
+              <p *ngIf="!task.title"><i>unknown title</i></p>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="task.deadline">
+          <hr>
+          <p><span>Deadline:</span>
+            {{task.deadline | date: 'dd/MM/yy'}}</p>
+          <hr>
+        </div>
+        <div *ngIf="task.sharedTo.length">
+          <span>Shared to: </span>
+          <ul class="usersEmails">
+            <li *ngFor="let email of task.sharedTo">{{email}};</li>
+          </ul>
+        </div>
+        <div *ngIf="task.description"><span>Description:</span>
+          <p style="white-space: pre-line">{{task.description}}</p>
+        </div>
+        <div class="post-buttons mt-2">
+          <button mat-raised-button (click)="editTask(postModal,task)" class="btn btn-success  mr-2">Edit</button>
+          <button mat-raised-button (click)="deleteTask(task)" class="btn btn-danger">Delete</button>
+          <mat-checkbox [(ngModel)]="task.isDone" (click)="changeStatusOFTask(task)">Task is done</mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<simple-notifications [options]="options"></simple-notifications>
+
+<ng-template #postModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Task modal</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="taskTitle">Task title</label>
+        <input type="text" [(ngModel)]="taskTitle" maxlength="30" name="taskTitle" id="taskTitle" class="form-control"
+          placeholder="Type here..">
+      </div>
+      <div class="form-group">
+        <label for="taskDescription">Task description</label>
+        <textarea rows="5" [(ngModel)]="taskDescription" name="taskDescription" id="taskDescription"
+          class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="taskSharedTo">Shared To</label>
+        <mat-form-field class="email-chip-list">
+          <mat-chip-list #chipList aria-label="Email selection">
+            <mat-chip *ngFor="let email of emails" [selectable]="selectable" [removable]="removable"
+              (removed)="removeEmail(email)">
+              {{email.name}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New email...(not necessarily)" [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addNewEmail($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label for="taskDeadline">Task deadline</label>
+        <input class="form-control" placeholder="Datepicker" [(ngModel)]='taskDeadline' id="taskDeadline"
+          name="taskDeadline" bsDatepicker [minDate]="minDate" placement="top">
+      </div>
+    </form>
+    <div class="buttons">
+      <button mat-raised-button color="primary" class="mr-2" (click)="saveEditTask()">Edit</button>
+      <button mat-raised-button color="warn" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

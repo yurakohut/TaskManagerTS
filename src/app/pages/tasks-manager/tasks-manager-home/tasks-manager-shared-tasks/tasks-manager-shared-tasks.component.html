@@ -1,0 +1,27 @@
+<div class="tasks">
+  <div class="container">
+    <div class="sharedTasks mt-5" [ngClass]="{'done': task.isDone}"
+      *ngFor="let task of filterTasks; let i=index" >
+      <div class="dateAndUser mt-2 mb-2">
+        <div class="cardHeader">
+          <h6 *ngIf="task.title">{{task.title}}</h6>
+          <p *ngIf="!task.title"><i>unknown title</i></p>
+          <mat-checkbox [(ngModel)]="task.isDone" (click)="changeStatusOFTask(task)">Done</mat-checkbox>
+        </div>
+        <hr>
+        <p class="mb-1">
+          <span> Create By:</span> {{task.createBy}}
+        </p>
+        <div *ngIf="task.deadline">
+          <hr>
+          <p><span>Deadline:</span>
+            {{task.deadline | date: 'dd/MM/yy'}}</p>
+          <hr>
+        </div>
+      </div>
+      <p class="mb-3 mt-3 userPostText"><span>Description: </span>{{task.description}}
+      </p>
+    </div>
+  </div>
+  <simple-notifications [options]="options"></simple-notifications>
+</div>

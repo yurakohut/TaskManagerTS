@@ -1,0 +1,46 @@
+  <div class="authorization">
+    <form class="formContainer" [formGroup]='form'>
+      <div class="{{title}}">
+        <h1>{{title}}</h1>
+        <div *ngIf="signUpOrLogInCheck">
+          <input type="email" placeholder="Email" formControlName="email" (input)='existingEmail = false'>
+          <div class="validation">
+            <div>
+              <small *ngIf='form.get("email").invalid && form.get("email").touched'>Invalid email </small>
+              <small *ngIf='existingEmail' class="existedSmall">This email is already
+                existed</small>
+            </div>
+          </div>
+        </div>
+        <input type="text" placeholder="Username" formControlName="username" (input)='existingName = false'>
+        <div class="validation">
+          <div *ngIf='form.get("username").invalid && form.get("username").touched && title === "Sign Up"'>
+            <small *ngIf='form.get("username").errors.required'>Invalid username </small>
+            <small *ngIf='form.get("username").errors.minlength'>Min
+              symbols {{form.get("username").errors.minlength.requiredLength}}</small>
+          </div>
+          <small *ngIf='existingName' class="existedSmall">This name is already existed</small>
+        </div>
+        <input type="password" placeholder="Password" formControlName="password">
+        <div class="validation">
+          <div *ngIf='form.get("password").invalid && form.get("password").touched && title === "Sign Up"'>
+            <small *ngIf='form.get("password").errors.minlength'>Min
+              symbols {{form.get("password").errors.minlength.requiredLength}}
+            </small>
+            <small *ngIf='form.get("password").errors.required'>Invalid password</small>
+          </div>
+          <small *ngIf='wrongData && title === "Log In"' class="wrongData">Invalid
+            password or username
+          </small>
+        </div>
+        <div class="signUp" *ngIf="signUpOrLogInCheck">
+          <button type="button" class="btn btn-primary" (click)="signUp()" [disabled]='form.invalid'>Sign Up</button>
+          <p>Have an account?<span class="checkLog" (click)="checkLog()"> Log in</span></p>
+        </div>
+        <div class="logIn" *ngIf="!signUpOrLogInCheck">
+          <button type="button" class="btn btn-success" (click)="logIn()">Log in</button>
+          <p>Don't have an account?<span class="checkLog" (click)="checkLog()"> Sign Up</span></p>
+        </div>
+      </div>
+    </form>
+  </div>
