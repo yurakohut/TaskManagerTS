@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ParticlesModule } from 'angular-particle';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { TasksManagerComponent } from './pages/tasks-manager/tasks-manager.component';
@@ -47,7 +46,6 @@ import { MatBadgeModule } from '@angular/material/badge';
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    ParticlesModule,
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
