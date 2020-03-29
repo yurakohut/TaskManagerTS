@@ -12,7 +12,7 @@ import { TaskService } from 'src/app/shared/services/task.service';
 })
 export class TasksManagerSharedTasksComponent implements OnInit {
   tasks: Array<ITask> = [];
-  filterTasks: any;
+  filterTasks: Array<ITask> = [];
   userInSystem: any;
   options = {
     position: ["right", "top"],
@@ -20,6 +20,8 @@ export class TasksManagerSharedTasksComponent implements OnInit {
     lastOnBottom: true,
     clickToClose: true
   }
+  isEmptyArray: boolean;
+
   constructor(private firebase: FirebaseService,
     private localStorageService: LocalStorageService,
     private notificationsService: NotificationService,
@@ -34,10 +36,18 @@ export class TasksManagerSharedTasksComponent implements OnInit {
         };
       });
       this.userInSystem = this.localStorageService.getDataLocalStorage("User")[0];
+      this.getFilterTasks();
+    });
+  };
+
+  getFilterTasks() {
+    if (this.userInSystem) {
       this.filterTasks = this.tasks.filter(task =>
         task.sharedTo.some(el => el == this.userInSystem.email));
-      this.firebase.getTasksCount(this.filterTasks.length);
-    });
+      this.firebase.getTasksCount(this.filterTasks.filter(el =>
+        el.isDone === false).length);
+      this.isEmptyArray = this.filterTasks.length ? false : true;
+    }
   };
 
   changeStatusOFTask(task) {

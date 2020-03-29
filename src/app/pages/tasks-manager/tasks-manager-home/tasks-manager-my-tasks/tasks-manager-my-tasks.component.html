@@ -33,6 +33,10 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <div *ngIf="isEmptyArray">
+      <h2 class="text-center">The task list is empty
+      </h2>
+    </div>
   </div>
 </div>
 

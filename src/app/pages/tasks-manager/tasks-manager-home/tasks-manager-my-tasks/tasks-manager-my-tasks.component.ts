@@ -45,7 +45,7 @@ export class TasksManagerMyTasksComponent implements OnInit {
   addOnBlur: boolean = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   emails: Array<object> = [];
-
+  isEmptyArray: boolean = false;
   constructor(private firebase: FirebaseService,
     private notificationsService: NotificationService,
     private taskService: TaskService,
@@ -62,11 +62,19 @@ export class TasksManagerMyTasksComponent implements OnInit {
         };
       });
       this.userInSystem = this.localStorageService.getDataLocalStorage("User")[0];
-      this.filterTasks = this.tasks.filter(tasks => tasks.createBy === this.userInSystem.email)
+      this.getFilterTasks();
     });
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate());
-  }
+  };
+
+  getFilterTasks() {
+    if (this.userInSystem) {
+      this.filterTasks = this.tasks.filter(tasks =>
+        tasks.createBy === this.userInSystem.email);
+      this.isEmptyArray = this.filterTasks.length ? false : true;
+    }
+  };
 
   //Після зміни даних блок  не перерендується. Застосований до головного циклу в HTML
   trackByPackId = (index, pack) => pack.id;
@@ -77,9 +85,13 @@ export class TasksManagerMyTasksComponent implements OnInit {
     this.taskTitle = title;
     this.taskDescription = description;
     this.taskCreateBy = createBy;
-    this.taskDeadline = new Date(deadline);
+    this.taskDeadline = this.checkDeadline(deadline);
     this.taskStatus = isDone;
     this.emails = sharedTo.map(el => ({ name: el }));
+  };
+
+  checkDeadline(date) {
+    return date ? new Date(date) : '';
   };
 
   closeModal(): void {
@@ -97,7 +109,7 @@ export class TasksManagerMyTasksComponent implements OnInit {
       this.taskTitle,
       this.taskDescription,
       this.taskCreateBy,
-      this.taskStatus,
+      false,
       this.taskDeadline,
       this.taskSharedTo,
       this.taskId);

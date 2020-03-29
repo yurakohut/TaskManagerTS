@@ -6,11 +6,13 @@
       <nav>
         <fa-icon [icon]="faPlus" class="fa-2x" matTooltip="Add new task" (click)="openModal(postModal)" matRipple>
         </fa-icon>
-        <fa-icon [icon]="faTasks" [ngClass]="{'active': tabIndex === 1}" (click)="activeLink(1)" matTooltip="My tasks"
-          routerLink="my-tasks" matRipple class="ml-3 fa-2x"></fa-icon>
-        <mat-icon [matBadge]="tasksCount" matBadgeColor="warn">
-          <fa-icon [icon]="faUserFriends" [ngClass]="{'active': tabIndex === 2}" (click)="activeLink(2)"
-            matTooltip="Shared tasks" routerLink="shared-tasks" matRipple class="ml-3">
+        <fa-icon [icon]="faTasks" [ngClass]="{'active': tabIndex === '/tasks/home/my-tasks'}"
+          (click)="activeLink('/tasks/home/my-tasks')" matTooltip="My tasks" routerLink="my-tasks" matRipple
+          class="ml-3 fa-2x"></fa-icon>
+        <mat-icon [matBadge]="tasksCount" matBadgeColor="warn" [matBadgeHidden]="tasksCount===0">
+          <fa-icon [icon]="faUserFriends" [ngClass]="{'active': tabIndex === '/tasks/home/shared-tasks'}"
+            (click)="activeLink('/tasks/home/shared-tasks')" matTooltip="New tasks for me" routerLink="shared-tasks"
+            matRipple class="ml-3">
           </fa-icon>
         </mat-icon>
         <fa-icon [icon]="faSignOutAlt" matTooltip="Log out" (click)="logOut()" matRipple class="ml-5 fa-2x"></fa-icon>

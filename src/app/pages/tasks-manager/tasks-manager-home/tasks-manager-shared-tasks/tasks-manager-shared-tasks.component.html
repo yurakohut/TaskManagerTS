@@ -1,8 +1,7 @@
 <div class="tasks">
   <div class="container">
-    <div class="sharedTasks mt-5" [ngClass]="{'done': task.isDone}"
-      *ngFor="let task of filterTasks;let i=index" data-aos="zoom-in-down"
-      data-aos-duration="500">
+    <div class="sharedTasks mt-5" [ngClass]="{'done': task.isDone}" *ngFor="let task of filterTasks;let i=index"
+      data-aos="zoom-in-down" data-aos-duration="500">
       <div class="dateAndUser mt-2 mb-2">
         <div class="cardHeader">
           <h6 *ngIf="task.title">{{task.title}}</h6>
@@ -20,8 +19,12 @@
           <hr>
         </div>
       </div>
-      <p class="mb-3 mt-3 userPostText"><span>Description: </span>{{task.description}}
+      <p *ngIf="task.description" class="mb-3 mt-3"><span>Description: </span>{{task.description}}
       </p>
+    </div>
+    <div *ngIf="isEmptyArray">
+      <h2 class="text-center">The task list is empty
+      </h2>
     </div>
   </div>
   <simple-notifications [options]="options"></simple-notifications>

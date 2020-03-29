@@ -21,7 +21,8 @@ mat-checkbox {
 .done {
   background: cadetblue;
 }
-.shared{
+
+.shared {
   border: 1px solid goldenrod;
 }
 
@@ -29,6 +30,6 @@ mat-checkbox {
   width: 100%;
 }
 
-.usersEmails{
+.usersEmails {
   list-style-type: none;
 }

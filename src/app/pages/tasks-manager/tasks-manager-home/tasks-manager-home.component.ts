@@ -33,7 +33,7 @@ export class TasksManagerHomeComponent implements OnInit {
   taskTitle: string = '';
   taskDeadline: any;
   taskDescription: string = '';
-  tabIndex: number = 1;
+  tabIndex: string = '';
   username: string;
   taskSharedTo: Array<string> = [];
   tasks: Array<ITask> = [];
@@ -51,14 +51,14 @@ export class TasksManagerHomeComponent implements OnInit {
     private modalService: BsModalService,
     private notificationsService: NotificationService,
     private checkUserService: CheckUserService,
-
   ) {
     this.getCount();
   }
 
   ngOnInit() {
+    this.activeLink(this.route.url);
     this.checkUserService.getAllUsers();
-    this.userInSystem = this.localStorageService.getDataLocalStorage("User")[0]
+    this.userInSystem = this.localStorageService.getDataLocalStorage("User")[0];
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate());
     this.firebaseService.getData('tasks').subscribe(actionArray => {
@@ -68,16 +68,23 @@ export class TasksManagerHomeComponent implements OnInit {
           ...user.payload.doc.data()
         };
       });
-      this.tasksCount = this.tasks.filter(task => task.sharedTo.some(el =>
-        el == this.userInSystem.email)).length;
+      this.getFilterTasksCount();
     });
   };
 
-  activeLink(index) {
+  getFilterTasksCount(): void {
+    if (this.userInSystem) {
+      this.tasksCount = this.tasks.filter(task =>
+        task.isDone === false && task.sharedTo.some(el =>
+          el == this.userInSystem.email)).length;
+    }
+  };
+
+  activeLink(index): void {
     this.tabIndex = index;
   };
 
-  logOut() {
+  logOut(): void {
     this.localStorageService.deleteDataFromLS('User');
     this.route.navigate(['tasks/authorization']);
   };

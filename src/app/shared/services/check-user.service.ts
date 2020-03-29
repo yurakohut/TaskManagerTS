@@ -17,7 +17,7 @@ export class CheckUserService {
     private firebaseService: FirebaseService) { }
 
   checkAuthorization() {
-    const userFromLS = this.localStorageService.getDataLocalStorage('User')[0];
+    const userFromLS = this.localStorageService.getDataLocalStorage('User');
     if (userFromLS.length === 0) {
       this.route.navigate(['tasks/authorization']);
     }
@@ -25,11 +25,11 @@ export class CheckUserService {
       //Якщо користувач змінить щось в Local Storage,
       //то його викине на форму логування, а Local Storage очиститься
       const isCorrectUser = this.users.find(user =>
-        user.username === userFromLS.username
-        && user.password === userFromLS.password
-        && user.email === userFromLS.email);
+        user.username === userFromLS[0].username
+        && user.password === userFromLS[0].password
+        && user.email === userFromLS[0].email);
       if (isCorrectUser) {
-        this.userInSystem = userFromLS;
+        this.userInSystem = userFromLS[0];
       }
       else {
         this.logOut();

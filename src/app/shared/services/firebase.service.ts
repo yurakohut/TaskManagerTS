@@ -20,7 +20,6 @@ export class FirebaseService {
 
   updateData(nameOfCollection, subject, id): void {
     this.firestore.doc(nameOfCollection + "/" + id).update(JSON.parse(JSON.stringify(subject)));
-    this.getTasksCount(subject);
   };
 
   deleteData(nameOfCollection, subject): void {
@@ -34,5 +33,4 @@ export class FirebaseService {
   getTasksCount(newTask): void {
     this.tasksStream.next(newTask);
   };
- 
 }

@@ -48,7 +48,7 @@ export class TasksManagerAuthorizationComponent implements OnInit {
   }
 
   //Перевірка логування / реєстрації
-  checkLog(): void {
+  changeLog(): void {
     this.signUpOrLogInCheck = !this.signUpOrLogInCheck;
     this.title = this.title === 'Sign Up' ? 'Log In' : 'Sign Up';
     this.existingName = false;

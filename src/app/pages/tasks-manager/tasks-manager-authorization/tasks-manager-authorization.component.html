@@ -12,7 +12,8 @@
             </div>
           </div>
         </div>
-        <input type="text" placeholder="Username" formControlName="username" (input)='existingName = false'>
+        <input type="text" placeholder="Username" maxlength="10" formControlName="username"
+          (input)='existingName = false'>
         <div class="validation">
           <div *ngIf='form.get("username").invalid && form.get("username").touched && title === "Sign Up"'>
             <small *ngIf='form.get("username").errors.required'>Invalid username </small>
@@ -35,11 +36,11 @@
         </div>
         <div class="signUp" *ngIf="signUpOrLogInCheck">
           <button type="button" class="btn btn-primary" (click)="signUp()" [disabled]='form.invalid'>Sign Up</button>
-          <p>Have an account?<span class="checkLog" (click)="checkLog()"> Log in</span></p>
+          <p>Have an account?<span class="checkLog" (click)="changeLog()"> Log in</span></p>
         </div>
         <div class="logIn" *ngIf="!signUpOrLogInCheck">
           <button type="button" class="btn btn-success" (click)="logIn()">Log in</button>
-          <p>Don't have an account?<span class="checkLog" (click)="checkLog()"> Sign Up</span></p>
+          <p>Don't have an account?<span class="checkLog" (click)="changeLog()"> Sign Up</span></p>
         </div>
       </div>
     </form>
